@@ -1,30 +1,27 @@
 import sys
 from os import path
 
-from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QTabWidget, QTreeView, QToolButton, QPushButton, QPlainTextEdit, QFileSystemModel, QFileDialog
-from PySide6.QtCore import QModelIndex
+from PySide6.QtGui import QIcon, QImage, QPixmap
+from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QTabWidget, QTreeView, QToolButton, QPlainTextEdit, QFileSystemModel, QFileDialog
+from PySide6.QtCore import QDir
 
 class Window(QWidget):
     def setup_layouts(self) -> None:
         self.cont_layout = QHBoxLayout()
         self.setLayout(self.cont_layout)
-
         self.cont_editor = QWidget()
         self.cont_editor_layout = QVBoxLayout()
         self.cont_editor.setLayout(self.cont_editor_layout)
 
         self.qa = QWidget()
         self.qa_layout = QHBoxLayout()
-        self.qa.setFixedHeight(64)
         self.qa.setLayout(self.qa_layout)
     # From working directory
     def add_file_tab(self, path_file):
         self.tabs.addTab(QPlainTextEdit(), path.basename(path.normpath(path_file)))
     def set_folder(self, folder_path):
-        model = QFileSystemModel()
-        model.setRootPath(folder_path)
-        index = QModelIndex()
-        self.file_explorer.setRootIndex(index)
+        model = QFileSystemModel(self.file_explorer)
+        model.index = model.setRootPath(folder_path)
         self.file_explorer.setModel(model)
     def ui_open_folder(self):
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
@@ -33,10 +30,16 @@ class Window(QWidget):
         self.setup_layouts()
 
         self.tabs = QTabWidget()
-        self.save_btn = QPushButton("Save")
-        self.open_folder_btn = QPushButton("Open folder")
+        self.save_btn = QToolButton(self.tabs)
+        self.save_btn.setFixedSize(32, 32)
+        self.save_btn.setIcon(QIcon("save_black_24dp.png"))
+        self.open_folder_btn = QToolButton(self.tabs)
+        self.open_folder_btn.setFixedSize(32, 32)
+        self.open_folder_btn.setIcon(QIcon("folder_open_black_24dp.png"))
         self.open_folder_btn.clicked.connect(self.ui_open_folder)
-        self.settings_btn = QPushButton("Settings")
+        self.settings_btn = QToolButton(self.tabs)
+        self.settings_btn.setFixedSize(32, 32)
+        self.settings_btn.setIcon(QIcon("settings_black_24dp.png"))
         self.file_explorer = QTreeView()
         self.file_explorer.setFixedWidth(256)
 
@@ -46,6 +49,7 @@ class Window(QWidget):
         self.qa_layout.addWidget(self.open_folder_btn)
         self.qa_layout.addWidget(self.save_btn)
         self.qa_layout.addWidget(self.settings_btn)
+        self.qa_layout.addStretch()
 
         self.cont_editor_layout.addWidget(self.qa)
         self.cont_editor_layout.addWidget(self.tabs)
