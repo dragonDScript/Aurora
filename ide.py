@@ -2,7 +2,7 @@ import sys
 from os import path
 
 from PySide6.QtGui import QIcon, QImage, QPixmap
-from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QTabWidget, QTreeView, QToolButton, QPlainTextEdit, QFileSystemModel, QFileDialog
+from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QTabWidget, QTreeView, QToolButton, QPlainTextEdit, QFileSystemModel, QFileDialog, QTextEdit
 from PySide6.QtCore import QDir
 
 class FileExplorer(QTreeView):
@@ -36,10 +36,18 @@ class Window(QWidget):
     def ui_open_folder(self):
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
         self.set_folder(folderpath)
+    def show_welcome_tab(self):
+        with open("release_notes.md", "r") as f:
+            markdown = QTextEdit()
+            markdown.setReadOnly(True)
+            markdown.setMarkdown(f.read())
+            self.tabs.addTab(markdown, QIcon("info_black_24dp.png"), "Welcome")
+            f.close()
     def render(self) -> None:
         self.setup_layouts()
 
         self.tabs = QTabWidget()
+        self.tabs.tabCloseRequested.connect(lambda index: self.tabs.removeTab(index))
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
         self.save_btn.setIcon(QIcon("save_black_24dp.png"))
@@ -51,6 +59,7 @@ class Window(QWidget):
         self.settings_btn.setFixedSize(32, 32)
         self.settings_btn.setIcon(QIcon("settings_black_24dp.png"))
         self.about_btn = QToolButton(self.tabs)
+        self.about_btn.clicked.connect(self.show_welcome_tab)
         self.about_btn.setFixedSize(32, 32)
         self.about_btn.setIcon(QIcon("info_black_24dp.png"))
 
