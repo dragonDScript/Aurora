@@ -6,8 +6,8 @@ from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, Q
 from PySide6.QtCore import QDir
 
 class FileExplorer(QTreeView):
-    def __init__(self, parent) -> None:
-        super().__init__(parent)
+    def __init__(self) -> None:
+        super().__init__()
         self.setColumnHidden(1, True)
         self.setColumnHidden(2, True)
         self.setFixedWidth(256)
@@ -50,14 +50,18 @@ class Window(QWidget):
         self.settings_btn = QToolButton(self.tabs)
         self.settings_btn.setFixedSize(32, 32)
         self.settings_btn.setIcon(QIcon("settings_black_24dp.png"))
+        self.about_btn = QToolButton(self.tabs)
+        self.about_btn.setFixedSize(32, 32)
+        self.about_btn.setIcon(QIcon("info_black_24dp.png"))
 
-        self.file_explorer = FileExplorer(self.cont_layout)
+        self.file_explorer = FileExplorer()
         self.cont_layout.addWidget(self.file_explorer)
         self.cont_layout.addWidget(self.cont_editor)
         
         self.qa_layout.addWidget(self.open_folder_btn)
         self.qa_layout.addWidget(self.save_btn)
         self.qa_layout.addWidget(self.settings_btn)
+        self.qa_layout.addWidget(self.about_btn)
         self.qa_layout.addStretch()
 
         self.cont_editor_layout.addWidget(self.qa)
@@ -68,7 +72,7 @@ class Window(QWidget):
 
     def post_render(self):
         if sys.argv[1] != None:
-            self.set_folder(sys.argv[1])
+            self.file_explorer.render_folder(sys.argv[1])
 
     def __init__(self) -> None:
         super().__init__()
