@@ -50,7 +50,9 @@ class Window(QWidget):
         self.file_tabs_open[index] = file_path
     def ui_open_folder(self):
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
-        self.set_folder(folderpath)
+        if folderpath == None:
+            return
+        self.file_explorer.render_folder(folderpath)
     def show_welcome_tab(self):
         if self.welcome_tab_open == False:
             with open("release_notes.md", "r") as f:
