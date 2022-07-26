@@ -8,15 +8,15 @@ from PySide6.QtCore import QDir
 class FileExplorer(QTreeView):
     def __init__(self) -> None:
         super().__init__()
-        self.setColumnHidden(1, True)
-        self.setColumnHidden(2, True)
         self.setFixedWidth(256)
     def render_folder(self, folder_path):
         self._model = QFileSystemModel(self)
-        self._model.setRootPath(folder_path)
         self.setModel(self._model)
         self.setRootIndex(self._model.setRootPath(folder_path))
         self.active_folder = folder_path
+        self.hideColumn(1)
+        self.hideColumn(2)
+        self.hideColumn(3)
  
 
 class Window(QWidget):
