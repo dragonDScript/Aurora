@@ -71,6 +71,8 @@ class Window(QWidget):
         self.file_tabs_open[toIndex] = path
     def overwrite_tab_file_contents(self):
         index = self.tabs.currentIndex()
+        if index == -1:
+            return
         editor = self.tabs.widget(index)
         plain_text = editor.toPlainText()
         with open(self.file_tabs_open[index], 'w') as f:
@@ -116,8 +118,11 @@ class Window(QWidget):
         self.tabs.setMovable(True)
 
     def post_render(self):
-        if sys.argv[1] != None:
-            self.file_explorer.render_folder(sys.argv[1])
+        try:
+            if sys.argv[1] != None:
+                self.file_explorer.render_folder(sys.argv[1])
+        except:
+            return
 
     def __init__(self) -> None:
         super().__init__()
