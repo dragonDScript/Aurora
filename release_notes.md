@@ -4,3 +4,4 @@ Welcome to the first release of Nadie, available without cost for everyone. No m
 - First release of Nadie.
 - Basic functionality: File editing, managing files...
 - Very unstable yet and lacking features.
+- Messy code

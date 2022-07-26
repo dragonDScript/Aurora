@@ -20,6 +20,8 @@ class FileExplorer(QTreeView):
  
 
 class Window(QWidget):
+    welcome_tab_open = False
+    file_tabs_open = {}
     def setup_layouts(self) -> None:
         self.cont_layout = QHBoxLayout()
         self.setLayout(self.cont_layout)
@@ -30,27 +32,58 @@ class Window(QWidget):
         self.qa = QWidget()
         self.qa_layout = QHBoxLayout()
         self.qa.setLayout(self.qa_layout)
-    # From working directory
-    def add_file_tab(self, path_file):
-        self.tabs.addTab(QPlainTextEdit(), path.basename(path.normpath(path_file)))
+    def add_file_tab_signal(self, index):
+        file_path = index.model().filePath(index)
+        already_open = None
+        for i in self.file_tabs_open:
+            if self.file_tabs_open[i] == file_path:
+                already_open = True
+                break
+        if already_open == True:
+            return
+        file_name = path.basename(file_path)
+        editor = QPlainTextEdit()
+        with open(file_path, 'r') as f:
+            editor.setPlainText(f.read())
+            f.close()
+        index = self.tabs.addTab(editor, file_name)
+        self.file_tabs_open[index] = file_path
     def ui_open_folder(self):
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
         self.set_folder(folderpath)
     def show_welcome_tab(self):
-        with open("release_notes.md", "r") as f:
-            markdown = QTextEdit()
-            markdown.setReadOnly(True)
-            markdown.setMarkdown(f.read())
-            self.tabs.addTab(markdown, QIcon("info_black_24dp.png"), "Welcome")
+        if self.welcome_tab_open == False:
+            with open("release_notes.md", "r") as f:
+                markdown = QTextEdit()
+                markdown.setReadOnly(True)
+                markdown.setMarkdown(f.read())
+                index = self.tabs.addTab(markdown, QIcon("info_black_24dp.png"), "Welcome")
+                self.welcome_tab_open = True
+                f.close()
+    def close_tab_signal(self, index):
+        self.file_tabs_open[index] = None
+        self.tabs.removeTab(index)
+    def move_tab_signal(self, fromIndex, toIndex):
+        path = self.file_tabs_open[fromIndex]
+        self.file_tabs_open[fromIndex] = None
+        self.file_tabs_open[toIndex] = path
+    def overwrite_tab_file_contents(self):
+        index = self.tabs.currentIndex()
+        editor = self.tabs.widget(index)
+        plain_text = editor.toPlainText()
+        with open(self.file_tabs_open[index], 'w') as f:
+            f.write(plain_text)
             f.close()
     def render(self) -> None:
         self.setup_layouts()
 
         self.tabs = QTabWidget()
-        self.tabs.tabCloseRequested.connect(lambda index: self.tabs.removeTab(index))
+        self.tabs.tabCloseRequested.connect(self.close_tab_signal)
+        self.tabs.tabBar().tabMoved.connect(self.move_tab_signal)
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
         self.save_btn.setIcon(QIcon("save_black_24dp.png"))
+        self.save_btn.clicked.connect(self.overwrite_tab_file_contents)
         self.open_folder_btn = QToolButton(self.tabs)
         self.open_folder_btn.setFixedSize(32, 32)
         self.open_folder_btn.setIcon(QIcon("folder_open_black_24dp.png"))
@@ -64,6 +97,7 @@ class Window(QWidget):
         self.about_btn.setIcon(QIcon("info_black_24dp.png"))
 
         self.file_explorer = FileExplorer()
+        self.file_explorer.doubleClicked.connect(self.add_file_tab_signal)
         self.cont_layout.addWidget(self.file_explorer)
         self.cont_layout.addWidget(self.cont_editor)
         
