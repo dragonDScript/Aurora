@@ -1,4 +1,4 @@
-# Nadie
+# Aurora IDE
 
 Planned (short-mid term):
 - Rename, create, delete files on the tree view
