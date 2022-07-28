@@ -10,4 +10,5 @@ Planned (short-mid term):
 - Auto updates
 - Translations to other languages
 - Better text editor
+- Extension API with decentralized plugin system: no backend, only git.
 - Eventually move to a static language such as C++

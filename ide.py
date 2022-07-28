@@ -127,7 +127,7 @@ class Window(QWidget):
     def __init__(self) -> None:
         super().__init__()
         self.welcome_icon = QIcon("info_black_24dp.png")
-        self.setWindowTitle("Nadie")
+        self.setWindowTitle("Aurora")
         self.setMinimumSize(840, 720)
         self.resize(1080, 720)
 
