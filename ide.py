@@ -11,6 +11,7 @@ class FileExplorer(QTreeView):
         self.setFixedWidth(256)
     def render_folder(self, folder_path):
         self._model = QFileSystemModel(self)
+        self._model.setReadOnly(False)
         self.setModel(self._model)
         self.setRootIndex(self._model.setRootPath(folder_path))
         self.active_folder = folder_path
@@ -101,7 +102,7 @@ class Window(QWidget):
         self.about_btn.setIcon(QIcon("info_black_24dp.png"))
 
         self.file_explorer = FileExplorer()
-        self.file_explorer.doubleClicked.connect(self.add_file_tab_signal)
+        self.file_explorer.clicked.connect(self.add_file_tab_signal)
         self.cont_layout.addWidget(self.file_explorer)
         self.cont_layout.addWidget(self.cont_editor)
         
