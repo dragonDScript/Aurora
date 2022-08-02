@@ -1,14 +1,14 @@
 # Aurora IDE
 
 Planned (short-mid term):
-- Rename, create, delete files on the tree view
+- ~~Rename~~, create, delete files on the tree view
 - Settings
-- Themes
+- Themes (+built-in dark mode theme and anime theme)
 - Markdown preview
-- Integrated webview: little browser (search bar, reload, arrows, start w/ google.com) and automatic, button-less HTML view
+- Integrated webview: little browser (search bar, reload, arrows, start w/ google.com) and automatic, button-less HTML view. Use firefox if possible, or Chromium if not possible. (*I'd love to include gecko but mozilla doesn't seem to want to do this*)
 - Integrated terminal
-- Auto updates
 - Translations to other languages
-- Better text editor
+- Better text editor (line numbers, auto completion...)
+- Eventually move to a static language such as C++ and reconsider GTK
 - Extension API with decentralized plugin system: no backend, only git.
-- Eventually move to a static language such as C++
+- Auto updates
