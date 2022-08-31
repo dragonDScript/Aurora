@@ -1,7 +1,8 @@
 # Aurora
 
 
-## 22.08 Boreal
+## 22.09 Europea
+- Better, more organized code
 - Settings window
 - Themes
 - Integrated markdown preview.
