@@ -4,7 +4,6 @@
 ## 22.09 Europea
 - Better, more organized code
 - Settings window
-- Themes
 - Integrated markdown preview.
 - Integrated HTML preview.
 - Integrated web browser.
