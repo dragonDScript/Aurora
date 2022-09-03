@@ -15,11 +15,11 @@ class WebBrowser(QMainWindow):
         self.toolBar.setMovable(False)
         self.addToolBar(self.toolBar)
         self.backButton = QPushButton()
-        self.backButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/left-32.png'))
+        self.backButton.setIcon(QIcon('baseline_arrow_back_black_18dp.png'))
         self.backButton.clicked.connect(self.back)
         self.toolBar.addWidget(self.backButton)
         self.forwardButton = QPushButton()
-        self.forwardButton.setIcon(QIcon(':/qt-project.org/styles/commonstyle/images/right-32.png'))
+        self.forwardButton.setIcon(QIcon('baseline_arrow_forward_black_18dp.png'))
         self.forwardButton.clicked.connect(self.forward)
         self.toolBar.addWidget(self.forwardButton)
 
