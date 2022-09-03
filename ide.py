@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QToolButton
+from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QToolButton, QTextBrowser
 from browser import WebBrowser
 
 from fexplorer import FileExplorer
@@ -29,7 +29,7 @@ class Window(QWidget):
         self.setup_layouts()
 
         self.file_explorer = FileExplorer()
-        self.tabs = Tabs(self.file_explorer.render_folder)
+        self.tabs = Tabs(render_folder_func=self.file_explorer.render_folder)
 
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
@@ -71,12 +71,17 @@ class Window(QWidget):
         
         self.horizontal_tabs_widget = QWidget()
         self.horizontal_tabs_layout = QHBoxLayout(self.horizontal_tabs_widget)
-        self.horizontal_tabs_layout.addWidget(self.tabs)
+        self.horizontal_tabs_layout.addWidget(self.tabs, stretch=1)
 
         # Start second panes (browser, preview, etc.)
         self.browser = WebBrowser()
         self.browser.setVisible(False)
-        self.horizontal_tabs_layout.addWidget(self.browser)
+        self.horizontal_tabs_layout.addWidget(self.browser, stretch=1)
+
+        self.markdown_preview = QTextBrowser()
+        self.markdown_preview.setVisible(False)
+        self.markdown_preview.setReadOnly(True)
+        self.horizontal_tabs_layout.addWidget(self.markdown_preview, stretch=1)
         # End second panes (browser, preview, etc.)
 
         self.cont_editor_layout.addWidget(self.horizontal_tabs_widget)
@@ -91,6 +96,7 @@ class Window(QWidget):
 
     def toggle_web_browser(self):
         if self.browser.isVisible():
+            self.markdown_preview.setVisible(False)
             self.browser.setVisible(False)
         else:
             self.browser.setVisible(True)

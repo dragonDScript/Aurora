@@ -11,8 +11,6 @@ class WebBrowser(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle('PySide6 WebEngineWidgets Example')
-
         self.toolBar = QToolBar()
         self.toolBar.setMovable(False)
         self.addToolBar(self.toolBar)
