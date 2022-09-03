@@ -26,7 +26,7 @@ class Tabs(QTabWidget):
             self.removeTab(self.currentIndex())
         self.file_tabs_open = {}
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
-        if folderpath == None:
+        if folderpath == None or folderpath == "":
             return
         self.file_explorer_render_folder(folderpath)
 
