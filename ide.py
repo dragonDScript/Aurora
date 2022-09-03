@@ -72,9 +72,13 @@ class Window(QWidget):
         self.horizontal_tabs_widget = QWidget()
         self.horizontal_tabs_layout = QHBoxLayout(self.horizontal_tabs_widget)
         self.horizontal_tabs_layout.addWidget(self.tabs)
+
+        # Start second panes (browser, preview, etc.)
         self.browser = WebBrowser()
         self.browser.setVisible(False)
         self.horizontal_tabs_layout.addWidget(self.browser)
+        # End second panes (browser, preview, etc.)
+
         self.cont_editor_layout.addWidget(self.horizontal_tabs_widget)
 
     def post_render(self):
