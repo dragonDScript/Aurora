@@ -28,7 +28,7 @@ class Tabs(QTabWidget):
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
         if folderpath == None:
             return
-        self.file_explorer.render_folder(folderpath)
+        self.file_explorer_render_folder(folderpath)
 
     def show_welcome_tab(self):
         with open("release_notes.md", "r") as f:
@@ -57,8 +57,9 @@ class Tabs(QTabWidget):
             f.write(plain_text)
             f.close()
 
-    def __init__(self) -> None:
+    def __init__(self, file_explorer_render_folder) -> None:
         super().__init__()
+        self.file_explorer_render_folder = file_explorer_render_folder
         self.setTabsClosable(True)
         self.setMovable(True)
         self.welcome_icon = QIcon("info_black_24dp.png")

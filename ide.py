@@ -2,11 +2,13 @@ import sys
 
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QToolButton
+from browser import WebBrowser
 
 from fexplorer import FileExplorer
 from tabs import Tabs
 
 from settings import SettingsWindow
+from browser import WebBrowser
 
 settings_window = None
 
@@ -26,7 +28,8 @@ class Window(QWidget):
     def render(self) -> None:
         self.setup_layouts()
 
-        self.tabs = Tabs()
+        self.file_explorer = FileExplorer()
+        self.tabs = Tabs(self.file_explorer.render_folder)
 
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
@@ -48,7 +51,11 @@ class Window(QWidget):
         self.about_btn.setFixedSize(32, 32)
         self.about_btn.setIcon(QIcon("info_black_24dp.png"))
 
-        self.file_explorer = FileExplorer()
+        self.browser_toggle_btn = QToolButton(self.tabs)
+        self.browser_toggle_btn.clicked.connect(self.toggle_web_browser)
+        self.browser_toggle_btn.setFixedSize(32, 32)
+        self.browser_toggle_btn.setIcon(QIcon("baseline_language_black_24dp.png"))
+
         self.file_explorer.clicked.connect(self.tabs.add_file_tab_signal)
         self.cont_layout.addWidget(self.file_explorer)
         self.cont_layout.addWidget(self.cont_editor)
@@ -57,10 +64,18 @@ class Window(QWidget):
         self.qa_layout.addWidget(self.save_btn)
         self.qa_layout.addWidget(self.settings_btn)
         self.qa_layout.addWidget(self.about_btn)
+        self.qa_layout.addWidget(self.browser_toggle_btn)
         self.qa_layout.addStretch()
 
         self.cont_editor_layout.addWidget(self.qa)
-        self.cont_editor_layout.addWidget(self.tabs)
+        
+        self.horizontal_tabs_widget = QWidget()
+        self.horizontal_tabs_layout = QHBoxLayout(self.horizontal_tabs_widget)
+        self.horizontal_tabs_layout.addWidget(self.tabs)
+        self.browser = WebBrowser()
+        self.browser.setVisible(False)
+        self.horizontal_tabs_layout.addWidget(self.browser)
+        self.cont_editor_layout.addWidget(self.horizontal_tabs_widget)
 
     def post_render(self):
         # render folder if there is an argument or fallback to do nothing
@@ -69,6 +84,13 @@ class Window(QWidget):
                 self.file_explorer.render_folder(sys.argv[1])
         except:
             return
+
+    def toggle_web_browser(self):
+        if self.browser.isVisible():
+            self.browser.setVisible(False)
+        else:
+            self.browser.setVisible(True)
+
 
     window_minimum_size = (840, 720)
     window_default_size = (1080, 720)
