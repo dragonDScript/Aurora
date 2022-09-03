@@ -6,6 +6,10 @@ from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, Q
 from fexplorer import FileExplorer
 from tabs import Tabs
 
+from settings import SettingsWindow
+
+settings_window = None
+
 class Window(QWidget):
     # Setups the necessary layouts for the GUI
     def setup_layouts(self) -> None:
@@ -37,6 +41,7 @@ class Window(QWidget):
         self.settings_btn = QToolButton(self.tabs)
         self.settings_btn.setFixedSize(32, 32)
         self.settings_btn.setIcon(QIcon("settings_black_24dp.png"))
+        self.settings_btn.clicked.connect(settings_window.show)
 
         self.about_btn = QToolButton(self.tabs)
         self.about_btn.clicked.connect(self.tabs.show_welcome_tab)
@@ -78,6 +83,8 @@ class Window(QWidget):
 
 def main():
     app = QApplication()
+    global settings_window
+    settings_window = SettingsWindow()
     win = Window()
     win.show()
     sys.exit(app.exec())
