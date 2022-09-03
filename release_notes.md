@@ -2,11 +2,11 @@
 
 
 ## 22.09 Europea
-- Better, more organized code
-- Settings window
-- Integrated markdown preview.
 - Integrated HTML preview.
+- Integrated markdown preview.
 - Integrated web browser.
+- Settings window.
+- Better, more organized code.
 
 
 ## 22.07 Catharina
