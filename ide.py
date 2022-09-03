@@ -56,6 +56,11 @@ class Window(QWidget):
         self.browser_toggle_btn.setFixedSize(32, 32)
         self.browser_toggle_btn.setIcon(QIcon("baseline_language_black_24dp.png"))
 
+        self.markdown_toggle_btn = QToolButton(self.tabs)
+        self.markdown_toggle_btn.clicked.connect(self.toggle_markdown_preview)
+        self.markdown_toggle_btn.setFixedSize(32, 32)
+        self.markdown_toggle_btn.setIcon(QIcon("baseline_document_scanner_black_24dp.png"))
+
         self.file_explorer.clicked.connect(self.tabs.add_file_tab_signal)
         self.cont_layout.addWidget(self.file_explorer)
         self.cont_layout.addWidget(self.cont_editor)
@@ -65,6 +70,7 @@ class Window(QWidget):
         self.qa_layout.addWidget(self.settings_btn)
         self.qa_layout.addWidget(self.about_btn)
         self.qa_layout.addWidget(self.browser_toggle_btn)
+        self.qa_layout.addWidget(self.markdown_toggle_btn)
         self.qa_layout.addStretch()
 
         self.cont_editor_layout.addWidget(self.qa)
@@ -94,11 +100,20 @@ class Window(QWidget):
         except:
             return
 
+    def toggle_markdown_preview(self):
+        if self.markdown_preview.isVisible():
+            self.browser.setVisible(False)
+            self.markdown_preview.setVisible(False)
+        else:
+            self.browser.setVisible(False)
+            self.markdown_preview.setVisible(True)
+
     def toggle_web_browser(self):
         if self.browser.isVisible():
             self.markdown_preview.setVisible(False)
             self.browser.setVisible(False)
         else:
+            self.markdown_preview.setVisible(False)
             self.browser.setVisible(True)
 
 
