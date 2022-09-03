@@ -1,7 +1,7 @@
 from os import path
 from pathlib import Path
 import json
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QTabWidget, QWidget, QFormLayout
 
 config_path = path.join(str(Path.home()), ".aurora.json")
 default_settings = {}
@@ -27,8 +27,14 @@ def dump_cached_settings():
 create_file_if_not_existent()
 cache_settings_get()
 
-class SettingsWindow(QWidget):
+class SettingsWindow(QTabWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Settings")
-        self.setFixedSize(512, 256)
+        self.setFixedSize(412, 512)
+        self.general_widget = QWidget()
+        self.general_layout = QFormLayout(self.general_widget)
+        self.general_layout
+        self.addTab(self.general_widget, "General")
+        self.addTab(QWidget(), "Third-party")
+        self.addTab(QWidget(), "Credits")
