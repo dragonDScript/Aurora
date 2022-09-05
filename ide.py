@@ -1,14 +1,13 @@
 import sys
+from os import path
 
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QToolButton, QTextBrowser
-from browser import WebBrowser
+from PySide6.QtWidgets import QApplication, QTextBrowser, QWidget, QHBoxLayout, QVBoxLayout, QToolButton
 
 from fexplorer import FileExplorer
 from tabs import Tabs
-
-from settings import SettingsWindow
 from browser import WebBrowser
+from settings import SettingsWindow
 
 settings_window = None
 
@@ -33,33 +32,33 @@ class Window(QWidget):
 
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
-        self.save_btn.setIcon(QIcon("icons/save_black_24dp.png"))
+        self.save_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "save_black_24dp.png")))
         self.save_btn.clicked.connect(self.tabs.overwrite_tab_file_contents)
 
         self.open_folder_btn = QToolButton(self.tabs)
         self.open_folder_btn.setFixedSize(32, 32)
-        self.open_folder_btn.setIcon(QIcon("icons/folder_open_black_24dp.png"))
+        self.open_folder_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "folder_open_black_24dp.png")))
         self.open_folder_btn.clicked.connect(self.tabs.ui_open_folder)
 
         self.settings_btn = QToolButton(self.tabs)
         self.settings_btn.setFixedSize(32, 32)
-        self.settings_btn.setIcon(QIcon("icons/settings_black_24dp.png"))
+        self.settings_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "settings_black_24dp.png")))
         self.settings_btn.clicked.connect(settings_window.show)
 
         self.about_btn = QToolButton(self.tabs)
         self.about_btn.clicked.connect(self.tabs.show_welcome_tab)
         self.about_btn.setFixedSize(32, 32)
-        self.about_btn.setIcon(QIcon("icons/info_black_24dp.png"))
+        self.about_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "info_black_24dp.png")))
 
         self.browser_toggle_btn = QToolButton(self.tabs)
         self.browser_toggle_btn.clicked.connect(self.toggle_web_browser)
         self.browser_toggle_btn.setFixedSize(32, 32)
-        self.browser_toggle_btn.setIcon(QIcon("icons/baseline_language_black_24dp.png"))
+        self.browser_toggle_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "baseline_language_black_24dp.png")))
 
         self.markdown_toggle_btn = QToolButton(self.tabs)
         self.markdown_toggle_btn.clicked.connect(self.toggle_markdown_preview)
         self.markdown_toggle_btn.setFixedSize(32, 32)
-        self.markdown_toggle_btn.setIcon(QIcon("icons/baseline_document_scanner_black_24dp.png"))
+        self.markdown_toggle_btn.setIcon(QIcon(path.join(__file__, "..", "icons", "baseline_document_scanner_black_24dp.png")))
 
         self.file_explorer.clicked.connect(self.tabs.add_file_tab_signal)
         self.cont_layout.addWidget(self.file_explorer)

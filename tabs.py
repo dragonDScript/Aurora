@@ -32,7 +32,7 @@ class Tabs(QTabWidget):
         self.file_explorer_render_folder(folderpath)
 
     def show_welcome_tab(self):
-        with open("release_notes.md", "r") as f:
+        with open(path.join(__file__, "..", "release_notes.md"), "r") as f:
             markdown = QTextEdit()
             markdown.setReadOnly(True)
             markdown.setMarkdown(f.read())

@@ -1,3 +1,5 @@
+from os import path
+
 from PySide6.QtWidgets import QMainWindow, QToolBar, QPushButton, QLineEdit
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QUrl
@@ -15,15 +17,15 @@ class WebBrowser(QMainWindow):
         self.toolBar.setMovable(False)
         self.addToolBar(self.toolBar)
         self.backButton = QPushButton()
-        self.backButton.setIcon(QIcon('icons/baseline_arrow_back_black_18dp.png'))
+        self.backButton.setIcon(QIcon(path.join(__file__, "..", "icons", "baseline_arrow_back_black_18dp.png")))
         self.backButton.clicked.connect(self.back)
         self.toolBar.addWidget(self.backButton)
         self.forwardButton = QPushButton()
-        self.forwardButton.setIcon(QIcon('icons/baseline_arrow_forward_black_18dp.png'))
+        self.forwardButton.setIcon(QIcon(path.join(__file__, "..", "icons", "baseline_arrow_forward_black_18dp.png")))
         self.forwardButton.clicked.connect(self.forward)
         self.toolBar.addWidget(self.forwardButton)
         self.refreshButton = QPushButton()
-        self.refreshButton.setIcon(QIcon('icons/baseline_refresh_black_18dp.png'))
+        self.refreshButton.setIcon(QIcon(path.join(__file__, "..", "icons", "baseline_refresh_black_18dp.png")))
         self.refreshButton.clicked.connect(self.refresh)
         self.toolBar.addWidget(self.refreshButton)
 
