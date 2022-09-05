@@ -22,6 +22,10 @@ class WebBrowser(QMainWindow):
         self.forwardButton.setIcon(QIcon('baseline_arrow_forward_black_18dp.png'))
         self.forwardButton.clicked.connect(self.forward)
         self.toolBar.addWidget(self.forwardButton)
+        self.refreshButton = QPushButton()
+        self.refreshButton.setIcon(QIcon('baseline_refresh_black_18dp.png'))
+        self.refreshButton.clicked.connect(self.refresh)
+        self.toolBar.addWidget(self.refreshButton)
 
         self.addressLineEdit = QLineEdit()
         self.addressLineEdit.returnPressed.connect(self.load)
@@ -39,6 +43,9 @@ class WebBrowser(QMainWindow):
         url = QUrl.fromUserInput(self.addressLineEdit.text())
         if url.isValid():
             self.webEngineView.load(url)
+
+    def refresh(self):
+        self.webEngineView.page().triggerAction(QWebEnginePage.Reload)
 
     def back(self):
         self.webEngineView.page().triggerAction(QWebEnginePage.Back)
