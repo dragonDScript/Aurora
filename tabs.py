@@ -1,4 +1,5 @@
 from os import path
+
 from PySide6.QtWidgets import QTabWidget, QPlainTextEdit, QTextEdit, QFileDialog
 from PySide6.QtGui import QIcon
 class Tabs(QTabWidget):
@@ -39,7 +40,13 @@ class Tabs(QTabWidget):
             f.close()
 
     def tab_focus_changed_signal(self, index):
-        pass
+        name = self.tabText(index)
+        widget: QPlainTextEdit = self.widget(index)
+        if name.endswith(".md"):
+            self.markdown_set_text(widget.toPlainText())
+            widget.textChanged.connect(lambda: self.markdown_set_text(widget.toPlainText()))
+        else:
+            self.markdown_set_text("")
 
     def close_tab_signal(self, index):
         self.file_tabs_open[index] = None
@@ -63,6 +70,7 @@ class Tabs(QTabWidget):
     def __init__(self, **kwargs) -> None:
         super().__init__()
         self.file_explorer_render_folder = kwargs["render_folder_func"]
+        self.markdown_set_text = kwargs["markdown_set_text"]
         self.setTabsClosable(True)
         self.setMovable(True)
         self.welcome_icon = QIcon("info_black_24dp.png")

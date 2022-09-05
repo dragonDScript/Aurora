@@ -29,7 +29,7 @@ class Window(QWidget):
         self.setup_layouts()
 
         self.file_explorer = FileExplorer()
-        self.tabs = Tabs(render_folder_func=self.file_explorer.render_folder)
+        self.tabs = Tabs(render_folder_func=self.file_explorer.render_folder, markdown_set_text=lambda txt:self.markdown_preview.setMarkdown(txt))
 
         self.save_btn = QToolButton(self.tabs)
         self.save_btn.setFixedSize(32, 32)
