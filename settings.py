@@ -36,5 +36,6 @@ class SettingsWindow(QTabWidget):
         self.general_layout = QFormLayout(self.general_widget)
         self.general_layout
         self.addTab(self.general_widget, "General")
+        self.addTab(QWidget(), "Browser")
         self.addTab(QWidget(), "Third-party")
         self.addTab(QWidget(), "Credits")
