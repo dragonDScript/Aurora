@@ -2,7 +2,6 @@
 
 
 ## 22.09 Europea
-- Integrated HTML preview.
 - Integrated markdown preview.
 - Integrated web browser.
 - Settings window.
