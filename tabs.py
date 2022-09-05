@@ -73,7 +73,7 @@ class Tabs(QTabWidget):
         self.markdown_set_text = kwargs["markdown_set_text"]
         self.setTabsClosable(True)
         self.setMovable(True)
-        self.welcome_icon = QIcon("info_black_24dp.png")
+        self.welcome_icon = QIcon("icons/info_black_24dp.png")
         self.tabCloseRequested.connect(self.close_tab_signal)
         self.tabBar().tabMoved.connect(self.move_tab_signal)
         self.currentChanged.connect(self.tab_focus_changed_signal)
