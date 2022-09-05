@@ -2,6 +2,9 @@ from os import path
 
 from PySide6.QtWidgets import QTabWidget, QPlainTextEdit, QTextEdit, QFileDialog
 from PySide6.QtGui import QIcon
+
+from icons import file
+
 class Tabs(QTabWidget):
     file_tabs_open = {}
 
@@ -23,16 +26,18 @@ class Tabs(QTabWidget):
         self.file_tabs_open[index] = file_path
 
     def ui_open_folder(self):
+        # Clear tabs and internal open files
         while self.count():
             self.removeTab(self.currentIndex())
         self.file_tabs_open = {}
+        # Dialog
         folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
         if folderpath == None or folderpath == "":
             return
         self.file_explorer_render_folder(folderpath)
 
     def show_welcome_tab(self):
-        with open(path.join(__file__, "..", "release_notes.md"), "r") as f:
+        with open(file("release_notes.md"), "r") as f:
             markdown = QTextEdit()
             markdown.setReadOnly(True)
             markdown.setMarkdown(f.read())
@@ -40,6 +45,7 @@ class Tabs(QTabWidget):
             f.close()
 
     def tab_focus_changed_signal(self, index):
+        # Markdown handling
         name = self.tabText(index)
         widget: QPlainTextEdit = self.widget(index)
         if name.endswith(".md"):
